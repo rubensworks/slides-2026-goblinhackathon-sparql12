@@ -16,6 +16,47 @@
       .shower {
         --slide-ratio: calc(16 / 9);
       }
+      table.query-results thead tr {
+          border: solid 1px gray;
+      }
+      table.query-results thead td {
+          font-weight: bold;
+          background-color: white;
+      }
+      table.query-results tbody tr {
+          border: solid 1px gray;
+      }
+      
+      pre.sparql {
+        background: #1e1e1e;
+        color: #d4d4d4;
+        padding: 1em;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-family: Consolas, Monaco, monospace;
+        font-size: 22px;
+      }
+
+      /* Keywords */
+      .sparql-keyword { color: #569cd6; font-weight: bold; }
+
+      /* Variables */
+      .sparql-variable { color: #9cdcfe; }
+
+      /* Strings */
+      .sparql-string { color: #ce9178; }
+
+      /* Prefixed names */
+      .sparql-prefix { color: #4ec9b0; }
+
+      /* Functions */
+      .sparql-function { color: #c586c0; }
+
+      /* Comments */
+      .sparql-comment { color: #6a9955; font-style: italic; }
+      
+      .code-highlight { border: solid 2px red; color: red; }
+      .code-highlight-label { color: red; font-weight: bold; font-size: 28px; }
     </style>
   </head>
 
@@ -40,106 +81,93 @@
       <p class="affiliation"><a href="http://idlab.technology/">Ghent University – imec – IDLab, Belgium</a></p>
     </section>
 
-    <section id="agenda" class="slide index" inlist="" rel="schema:hasPart" resource="#agenda">
+    <section id="index-start" class="slide index" inlist="" rel="schema:hasPart" resource="#index-start">
       <ul>
-        <li><a href="#triple-terms-title">Triple terms and reification in SPARQL</a></li>
-        <li><a href="#other-changes-title">Overview of other changes</a></li>
+        <li><a href="#index-querysyntax">Query syntax</a></li>
+        <li><a href="#index-functions">Functions</a></li>
+        <li><a href="#index-comparisons">Comparisons</a></li>
+        <li><a href="#index-results">Results</a></li>
+        <li><a href="#index-other">Other changes</a></li>
       </ul>
     </section>
 
-    <section id="triple-terms-title" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-title">
-      <h2 property="schema:name" class="big">Triple terms and reification in SPARQL</h2>
-      <p>An Introduction to RDF and SPARQL 1.2</p>
-      <p class="venue">ISWC 2025 — 2 November 2025</p>
-      <ul class="author inline">
-        <li>Pierre-Antoine Champin</li>
-        <li>Enrico Franconi</li>
-        <li>Ora Lassila</li>
-        <li>Ruben Taelman</li>
-      </ul>
-      <p><a href="https://www.w3.org/Talks/2025/iswc-tutorial-rdfsparql-12/">https://www.w3.org/Talks/2025/iswc-tutorial-rdfsparql-12/</a></p>
-    </section>
-
-    <section id="triple-terms-outline" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-outline">
-      <h2 property="schema:name">Outline</h2>
+    <section id="index-querysyntax" class="slide index" inlist="" rel="schema:hasPart" resource="#index-querysyntax">
       <ul>
-        <li>Query syntax</li>
-        <li>Functions</li>
-        <li>Comparisons</li>
-        <li>Results</li>
-      </ul>
-    </section>
-
-    <section id="triple-terms-outline-query" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-outline-query">
-      <h2 property="schema:name">Outline</h2>
-      <ul>
-        <li class="current">Query syntax</li>
-        <li class="inactive">Functions</li>
-        <li class="inactive">Comparisons</li>
-        <li class="inactive">Results</li>
+        <li class="current"><a href="#index-querysyntax">Query syntax</a></li>
+        <li><a href="#index-functions">Functions</a></li>
+        <li><a href="#index-comparisons">Comparisons</a></li>
+        <li><a href="#index-results">Results</a></li>
+        <li><a href="#index-other">Other changes</a></li>
       </ul>
     </section>
 
     <section id="triple-terms-syntax" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-syntax">
       <h2 property="schema:name">Triple terms use the “&lt;&lt;( … )&gt;&gt;” syntax</h2>
       <p>Syntax remains aligned with Turtle.</p>
-      <pre><code>VERSION "1.2"
+      <pre class="sparql">VERSION "1.2"
 PREFIX : &lt;http://example.com/ns#&gt;
 PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+
 SELECT ?person ?authority {
   _:r rdf:reifies &lt;&lt;( ?person :jobTitle "Designer" )&gt;&gt; .
   _:r :accordingTo ?authority .
-}</code></pre>
-      <p class="indent"><strong>Triple term</strong></p>
+}</pre>
+      <div class="code-highlight" style="position: relative; width: 490px; height: 30px; top: -115px; left: 250px">&nbsp;</div>
+      <div class="code-highlight-label" style="position: relative; top: -110px; left: 410px"><strong>Triple term</strong></div>
     </section>
 
     <section id="triple-terms-shorthand" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-shorthand">
       <h2 property="schema:name">“&lt;&lt; … &gt;&gt;” as shorthand for writing reifying triples</h2>
       <p>Triple terms are rarely used directly.</p>
-      <p><strong>Reifying triple</strong></p>
-      <pre><code>SELECT ?person ?authority {
+      <pre class="sparql">SELECT ?person ?authority {
   &lt;&lt; ?person :jobTitle "Designer" &gt;&gt;
       :accordingTo ?authority .
-}</code></pre>
+}</pre>
       <p><strong>Expands to:</strong></p>
-      <pre><code>SELECT ?person ?authority {
+      <pre class="sparql">SELECT ?person ?authority {
   _:r rdf:reifies &lt;&lt;( ?person :jobTitle "Designer" )&gt;&gt; .
   _:r :accordingTo ?authority .
-}</code></pre>
-      <p class="indent"><strong>Reifier</strong></p>
+}</pre>
+      <div class="code-highlight" style="position: relative; width: 460px; height: 30px; top: -340px; left: 40px">&nbsp;</div>
+      <div class="code-highlight-label" style="position: relative; top: -390px; left: 550px"><strong>Reifying triple</strong></div>
+      <div class="code-highlight" style="position: relative; width: 50px; height: 50px; top: -200px; left: 40px">&nbsp;</div>
+      <div class="code-highlight-label" style="position: relative; top: -225px; left: 100px"><strong>Reifier</strong></div>
     </section>
 
     <section id="triple-terms-reifier" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-reifier">
       <h2 property="schema:name">“&lt;&lt; … ~ :reifier &gt;&gt;” sets a specific reifier</h2>
       <p>Reifier can be IRIs, blank nodes, or variables.</p>
-      <pre><code>SELECT ?person ?authority {
+      <pre class="sparql">SELECT ?person ?authority {
   &lt;&lt; ?person :jobTitle "Designer" ~ :id &gt;&gt;
       :accordingTo ?authority .
-}</code></pre>
-      <p class="indent"><strong>Reifier</strong></p>
+}</pre>
+      <div class="code-highlight" style="position: relative; width: 50px; height: 50px; top: -125px; left: 495px">&nbsp;</div>
+      <div class="code-highlight-label" style="position: relative; top: -130px; left: 480px"><strong>Reifier</strong></div>
     </section>
 
     <section id="triple-terms-annotation" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-annotation">
       <h2 property="schema:name">“{| … |}” reifies and asserts triples</h2>
       <p>The annotation syntax.</p>
-      <pre><code>SELECT ?p ?auth ?date {
+      <pre class="sparql">SELECT ?p ?auth ?date {
   ?p :jobTitle ?title {| :accordingTo ?auth; :recorded ?date |} .
-}</code></pre>
+}</pre>
       <p><strong>Expands to:</strong></p>
-      <pre><code>SELECT ?p ?auth ?date {
+      <pre class="sparql">SELECT ?p ?auth ?date {
   ?p :jobTitle ?title .
   &lt;&lt; ?p :jobTitle ?title &gt;&gt; :accordingTo ?auth ;
                             :recorded ?date .
-}</code></pre>
+}</pre>
+      <div class="code-highlight" style="position: relative; width: 560px; height: 30px; top: -340px; left: 300px">&nbsp;</div>
+      <div class="code-highlight-label" style="position: relative; top: -355px; left: 500px"><strong>Annotation block</strong></div>
     </section>
 
-    <section id="triple-terms-outline-functions" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-outline-functions">
-      <h2 property="schema:name">Outline</h2>
+    <section id="index-functions" class="slide index" inlist="" rel="schema:hasPart" resource="#index-functions">
       <ul>
-        <li class="inactive">Query syntax</li>
-        <li class="current">Functions</li>
-        <li class="inactive">Comparisons</li>
-        <li class="inactive">Results</li>
+        <li><a href="#index-querysyntax">Query syntax</a></li>
+        <li class="current"><a href="#index-functions">Functions</a></li>
+        <li><a href="#index-comparisons">Comparisons</a></li>
+        <li><a href="#index-results">Results</a></li>
+        <li><a href="#index-other">Other changes</a></li>
       </ul>
     </section>
 
@@ -159,23 +187,23 @@ SELECT ?person ?authority {
       <h2 property="schema:name">Dynamically bind triple terms (1)</h2>
       <p>Using BIND, triple terms can be bound to a variable.</p>
       <p>→ Lookup all asserted reifying triples</p>
-      <pre><code>SELECT ?tt ?date {
+      <pre class="sparql">SELECT ?tt ?date {
   ?s ?p ?o .
   BIND( TRIPLE(?s, ?p, ?o) AS ?tt )
   ?reifier rdf:reifies ?tt .
   ?reifier :tripleAdded ?date .
-}</code></pre>
+}</pre>
     </section>
 
     <section id="triple-terms-bind-2" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-bind-2">
       <h2 property="schema:name">Dynamically bind triple terms (2)</h2>
       <p><code>TRIPLE</code> can also be written using the “&lt;&lt;( … )&gt;&gt;” shorthand.</p>
-      <pre><code>SELECT ?tt ?date {
+      <pre class="sparql">SELECT ?tt ?date {
   ?s ?p ?o .
   BIND( &lt;&lt;( ?s ?p ?o )&gt;&gt; AS ?tt )
   ?reifier rdf:reifies ?tt .
   ?reifier :tripleAdded ?date .
-}</code></pre>
+}</pre>
       <p>Limitation: no sub-expressions allowed within this shorthand.</p>
       <ul>
         <li>Allowed: <code>BIND( TRIPLE(?s, ?p, STR(?o)) AS ?tt )</code></li>
@@ -186,19 +214,19 @@ SELECT ?person ?authority {
     <section id="triple-terms-subject" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-subject">
       <h2 property="schema:name">Retrieve subjects of triple terms</h2>
       <p>Using <code>SUBJECT</code>, the subject of a triple term is returned.</p>
-      <pre><code>SELECT ?s {
+      <pre class="sparql">SELECT ?s {
   :id rdf:reifies ?tt .
   BIND(SUBJECT(?tt) AS ?s)
-}</code></pre>
+}</pre>
     </section>
 
-    <section id="triple-terms-outline-comparisons" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-outline-comparisons">
-      <h2 property="schema:name">Outline</h2>
+    <section id="index-comparisons" class="slide index" inlist="" rel="schema:hasPart" resource="#index-comparisons">
       <ul>
-        <li class="inactive">Query syntax</li>
-        <li class="inactive">Functions</li>
-        <li class="current">Comparisons</li>
-        <li class="inactive">Results</li>
+        <li><a href="#index-querysyntax">Query syntax</a></li>
+        <li><a href="#index-functions">Functions</a></li>
+        <li class="current"><a href="#index-comparisons">Comparisons</a></li>
+        <li><a href="#index-results">Results</a></li>
+        <li><a href="#index-other">Other changes</a></li>
       </ul>
     </section>
 
@@ -220,8 +248,8 @@ SELECT ?person ?authority {
         <li>Both IRIs are the same as IRIs (character-by-character).</li>
         <li>Both literals are equal as literal terms (lexical space, case-sensitive).</li>
         <li>Both blank nodes are equal as blank nodes.</li>
-        <li>Both triple terms are equal as triple terms.</li>
-        <li>The subject, predicate, and object components are pair-wise the same term.</li>
+        <li style="color:red">Both triple terms are equal as triple terms.</li>
+        <li style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;The subject, predicate, and object components are pair-wise the same term.</li>
       </ul>
     </section>
 
@@ -236,24 +264,40 @@ SELECT ?person ?authority {
 
     <section id="triple-terms-comparison-diff" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-comparison-diff">
       <h2 property="schema:name">Difference between sameTerm and sameValue (=)</h2>
-      <pre><code>sameTerm(123, 123)                 true
-sameTerm(123, 123.0)               false
-sameTerm(&lt;&lt;(:s :p 123)&gt;&gt;, &lt;&lt;(:s :p 123.0)&gt;&gt;) false
-
-123 = 123                          true
-123 = 123.0                        true
-&lt;&lt;(:s :p 123)&gt;&gt; = &lt;&lt;(:s :p 123.0)&gt;&gt;  true</code></pre>
-    </section>
-
-    <section id="triple-terms-operator-mapping" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-operator-mapping">
-      <h2 property="schema:name">Operator mappings (&lt;, &lt;=, &gt;, &gt;=) are applied recursively</h2>
-      <ul>
-        <li>Pairwise comparisons on triple terms in the order of subject, predicate, object.</li>
-      </ul>
-      <pre><code>&lt;&lt;(:s :p 123)&gt;&gt; &lt;  &lt;&lt;(:s :p 124)&gt;&gt;  true
-&lt;&lt;(:s :p 123)&gt;&gt; &gt;  &lt;&lt;(:s :p 124)&gt;&gt;  false
-&lt;&lt;(:s :p 123)&gt;&gt; &lt;= &lt;&lt;(:s :p 123)&gt;&gt;  true</code></pre>
-      <p><em>Still under discussion!</em></p>
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>sameTerm(123, 123)</code></td>
+      <td><code>true</code></td>
+    </tr>
+    <tr>
+      <td><code>sameTerm(123, 123.0)</code></td>
+      <td><code>false</code></td>
+    </tr>
+    <tr>
+      <td><code>sameTerm(&lt;&lt;(:s :p 123)&gt;&gt;, &lt;&lt;(:s :p 123.0)&gt;&gt;)</code></td>
+      <td><code>false</code></td>
+    </tr>
+    <tr>
+      <td><code>123 = 123</code></td>
+      <td><code>true</code></td>
+    </tr>
+    <tr>
+      <td><code>123 = 123.0</code></td>
+      <td><code>true</code></td>
+    </tr>
+    <tr>
+      <td><code>&lt;&lt;(:s :p 123)&gt;&gt; = &lt;&lt;(:s :p 123.0)&gt;&gt;</code></td>
+      <td><code>true</code></td>
+    </tr>
+  </tbody>
+</table>
     </section>
 
     <section id="triple-terms-orderby" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-orderby">
@@ -268,13 +312,13 @@ sameTerm(&lt;&lt;(:s :p 123)&gt;&gt;, &lt;&lt;(:s :p 123.0)&gt;&gt;) false
       </ul>
     </section>
 
-    <section id="triple-terms-outline-results" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-outline-results">
-      <h2 property="schema:name">Outline</h2>
+    <section id="index-results" class="slide index" inlist="" rel="schema:hasPart" resource="#index-results">
       <ul>
-        <li class="inactive">Query syntax</li>
-        <li class="inactive">Functions</li>
-        <li class="inactive">Comparisons</li>
-        <li class="current">Results</li>
+        <li><a href="#index-querysyntax">Query syntax</a></li>
+        <li><a href="#index-functions">Functions</a></li>
+        <li><a href="#index-comparisons">Comparisons</a></li>
+        <li class="current"><a href="#index-results">Results</a></li>
+        <li><a href="#index-other">Other changes</a></li>
       </ul>
     </section>
 
@@ -290,7 +334,7 @@ sameTerm(&lt;&lt;(:s :p 123)&gt;&gt;, &lt;&lt;(:s :p 123.0)&gt;&gt;) false
 
     <section id="triple-terms-results-json" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-results-json">
       <h2 property="schema:name">SPARQL JSON: “triple” term types</h2>
-      <pre><code>{
+      <pre style="font-size: 0.75em">{
   "head": { "vars": [ "x", "name", "triple" ] },
   "results": {
     "bindings": [
@@ -308,12 +352,12 @@ sameTerm(&lt;&lt;(:s :p 123)&gt;&gt;, &lt;&lt;(:s :p 123.0)&gt;&gt;) false
       }
     ]
   }
-}</code></pre>
+}</pre>
     </section>
 
     <section id="triple-terms-results-xml" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-results-xml">
       <h2 property="schema:name">SPARQL XML: &lt;triple&gt; tag</h2>
-      <pre><code>&lt;?xml version="1.0"?&gt;
+      <pre style="font-size: 0.85em">&lt;?xml version="1.0"?&gt;
 &lt;sparql ...&gt;
   &lt;head&gt; ... &lt;/head&gt;
   &lt;results&gt;
@@ -330,69 +374,38 @@ datatype="http://www.w3.org/2001/XMLSchema#string"&gt;Alice&lt;/literal&gt;&lt;/
       &lt;/binding&gt;
     &lt;/result&gt;
   &lt;/results&gt;
-&lt;/sparql&gt;</code></pre>
+&lt;/sparql&gt;</pre>
     </section>
 
     <section id="triple-terms-results-csv" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-results-csv">
       <h2 property="schema:name">SPARQL CSV: encoding in “&lt;&lt;( … )&gt;&gt;”</h2>
-      <pre><code>x triple
-Alice &lt;&lt;( http://example/alice http://example/knows http://example/bob )&gt;&gt;
-Bob &lt;&lt;( http://example/bob http://example/knows http://example/alice )&gt;&gt;
-Carol &lt;&lt;( http://example/carol http://example/says "Hello world, my name is Alice." )&gt;&gt;</code></pre>
+      <table style="font-size: 0.9em">
+          <tr><td>x</td><td>triple</td></tr>
+          <tr><td>Alice</td><td>&lt;&lt;( http://example/alice http://example/knows http://example/bob )&gt;&gt;</td></tr>
+          <tr><td>Bob</td><td>&lt;&lt;( http://example/bob http://example/knows http://example/alice )&gt;&gt;</td></tr>
+          <tr><td>Carol</td><td>&lt;&lt;( http://example/carol http://example/says "Hello world, my name is Alice." )&gt;&gt;</td></tr>
+      </table>
       <p><strong>Warning:</strong> SPARQL CSV is lossy! (no data types)</p>
     </section>
 
     <section id="triple-terms-results-tsv" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-results-tsv">
       <h2 property="schema:name">SPARQL TSV: encoding in “&lt;&lt;( … )&gt;&gt;”</h2>
-      <pre><code>?x ?triple
-"Alice" &lt;&lt;( &lt;http://example/alice&gt; &lt;http://example/knows&gt; &lt;http://example/bob&gt; )&gt;&gt;
-"Bob" &lt;&lt;( &lt;http://example/bob&gt; &lt;http://example/knows&gt; &lt;http://example/alice&gt; )&gt;&gt;
-"Carol" &lt;&lt;( &lt;http://example/carol&gt; &lt;http://example/says&gt; "Hello world, my name is
-Alice". )&gt;&gt;</code></pre>
+      <table style="font-size: 0.85em">
+          <tr><td>?x</td><td>?triple</td></tr>
+          <tr><td>"Alice"</td><td>&lt;&lt;( &lt;http://example/alice&gt; &lt;http://example/knows&gt; &lt;http://example/bob&gt; )&gt;&gt;</td></tr>
+          <tr><td>"Bob"</td><td>&lt;&lt;( &lt;http://example/bob&gt; &lt;http://example/knows&gt; &lt;http://example/alice&gt; )&gt;&gt;</td></tr>
+          <tr><td>"Carol"</td><td>&lt;&lt;( &lt;http://example/carol&gt; &lt;http://example/says&gt; "Hello world, my name is
+Alice". )&gt;&gt;</td></tr>
+      </table>
     </section>
 
-    <section id="triple-terms-outline-end" class="slide" inlist="" rel="schema:hasPart" resource="#triple-terms-outline-end">
-      <h2 property="schema:name">Outline</h2>
+    <section id="index-other" class="slide index" inlist="" rel="schema:hasPart" resource="#index-other">
       <ul>
-        <li>Query syntax</li>
-        <li>Functions</li>
-        <li>Comparisons</li>
-        <li>Results</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-title" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-title">
-      <h2 property="schema:name" class="big">Overview of other changes</h2>
-      <p>An Introduction to RDF and SPARQL 1.2</p>
-      <p class="venue">ISWC 2025 — 2 November 2025</p>
-      <ul class="author inline">
-        <li>Pierre-Antoine Champin</li>
-        <li>Enrico Franconi</li>
-        <li>Ora Lassila</li>
-        <li>Ruben Taelman</li>
-      </ul>
-      <p><a href="https://www.w3.org/Talks/2025/iswc-tutorial-rdfsparql-12/">https://www.w3.org/Talks/2025/iswc-tutorial-rdfsparql-12/</a></p>
-    </section>
-
-    <section id="other-changes-outline" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-outline">
-      <h2 property="schema:name">Outline</h2>
-      <ul>
-        <li>Version announcement</li>
-        <li>Base directions</li>
-        <li>EXISTS</li>
-        <li>Symmetric RDF (non normative)</li>
-        <li>Other changes</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-outline-version" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-outline-version">
-      <h2 property="schema:name">Outline</h2>
-      <ul>
-        <li class="current">Version announcement</li>
-        <li class="inactive">Base directions</li>
-        <li class="inactive">EXISTS</li>
-        <li class="inactive">Symmetric RDF (non normative)</li>
-        <li class="inactive">Other changes</li>
+        <li><a href="#index-querysyntax">Query syntax</a></li>
+        <li><a href="#index-functions">Functions</a></li>
+        <li><a href="#index-comparisons">Comparisons</a></li>
+        <li><a href="#index-results">Results</a></li>
+        <li class="current"><a href="#index-other">Other changes</a></li>
       </ul>
     </section>
 
@@ -409,7 +422,7 @@ Alice". )&gt;&gt;</code></pre>
           </ul>
         </li>
       </ul>
-      <p>Also painful for clients to manage during content negotiation (+CORS: 128 char header value limit).</p>
+      <p>Also painful for clients to manage during content negotiation<br \>&nbsp;&nbsp;&nbsp;&nbsp;(+CORS: 128 char header value limit).</p>
     </section>
 
     <section id="other-changes-versioning" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-versioning">
@@ -418,8 +431,8 @@ Alice". )&gt;&gt;</code></pre>
         <li>Precedent: JSON-LD already does this (“@version”), HTML.</li>
         <li>Two ways to announce versions:
           <ul>
-            <li>In-band within the syntax</li>
-            <li>Out-of-band outside of the syntax (media type parameter)</li>
+            <li><strong>In-band</strong>: within the syntax</li>
+            <li><strong>Out-of-band</strong>: outside of the syntax (media type parameter)</li>
           </ul>
         </li>
       </ul>
@@ -432,10 +445,10 @@ Alice". )&gt;&gt;</code></pre>
         <li>Purely informative: keyword MAY be used when 1.2 features are present (could be impossible to determine for some producers).</li>
         <li>Can appear anywhere; should be placed early to make unsupported parsers fail early.</li>
       </ul>
-      <pre><code>VERSION "1.2"
+      <pre class="sparql">VERSION "1.2"
 PREFIX : &lt;http://example.com/&gt;
 PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
-:a :name "Alice" ~ :t {| :statedBy :bob |} .</code></pre>
+:a :name "Alice" ~ :t {| :statedBy :bob |} .</pre>
     </section>
 
     <section id="other-changes-outofband" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-outofband">
@@ -443,74 +456,53 @@ PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
       <ul>
         <li>MAY be used instead of, or together with in-band versioning.</li>
       </ul>
-      <pre><code>GET /document.ttl HTTP/1.1
+      <pre>GET /document.ttl HTTP/1.1
 Host: example.com
 Accept: text/turtle; version=1.2
 
 HTTP/1.1 200 OK
-Content-Type: text/turtle; version=1.2</code></pre>
+Content-Type: text/turtle; version=1.2</pre>
       <p class="indent"><strong>Media type parameter</strong></p>
     </section>
 
     <section id="other-changes-version-labels" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-version-labels">
       <h2 property="schema:name">Defined version labels</h2>
-      <ul>
-        <li><strong>"1.2"</strong> RDF 1.2 syntax</li>
-        <li><strong>"1.2-basic"</strong> RDF 1.2 syntax without triple terms</li>
-        <li><strong>"1.1"</strong> RDF 1.1 syntax except for use of a version directive</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-server" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-server">
-      <h2 property="schema:name">Server considerations wrt. versioning (non-normative)</h2>
-      <ul>
-        <li>What if requested version is incompatible with dataset/graph?</li>
-        <li><code>1.2 → 1.1/1.2-basic</code> apply basic encoding algorithm (remove triple terms).</li>
-        <li><a href="https://w3c.github.io/rdf-interop/spec/">https://w3c.github.io/rdf-interop/spec/</a></li>
-        <li>Reject 406 “Not Acceptable”.</li>
-        <li>Ignore and return native representation.</li>
-        <li>“Be conservative in what you send, be liberal in what you accept.”</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-client" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-client">
-      <h2 property="schema:name">Client considerations wrt. versioning (non-normative)</h2>
-      <ul>
-        <li>No version mentioned? Clients can assume latest RDF version (1.2).</li>
-        <li>Conflicting versions? Do one of:
-          <ul>
-            <li>Ignore version announcement</li>
-            <li>Raise error and abort</li>
-            <li>Issue warning and potentially ignore some triples</li>
-            <li>Parse fully and only emit triples for declared version</li>
-          </ul>
-        </li>
-      </ul>
-    </section>
-
-    <section id="other-changes-outline-basedirections" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-outline-basedirections">
-      <h2 property="schema:name">Outline</h2>
-      <ul>
-        <li class="inactive">Version announcement</li>
-        <li class="current">Base directions</li>
-        <li class="inactive">EXISTS</li>
-        <li class="inactive">Symmetric RDF (non normative)</li>
-        <li class="inactive">Other changes</li>
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Version label</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>"1.2"</strong></td>
+            <td>RDF 1.2 syntax</td>
+          </tr>
+          <tr>
+            <td><strong>"1.2-basic"</strong></td>
+            <td>RDF 1.2 syntax without triple terms</td>
+          </tr>
+          <tr>
+            <td><strong>"1.1"</strong></td>
+            <td>RDF 1.1 syntax except for use of a version directive</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <section id="other-changes-base-directions" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-base-directions">
-      <h2 property="schema:name">Languages can have different reading directions</h2>
+      <h2 property="schema:name">Languages can (optionally) have different reading directions</h2>
       <ul>
         <li>Direction cannot be derived from language:
           <a href="https://www.w3.org/International/questions/qa-direction-from-language">https://www.w3.org/International/questions/qa-direction-from-language</a>
         </li>
         <li>Language tags are insufficient → tag literals with language AND base direction.</li>
-        <li>Language-tagged strings can now be (optionally) augmented with a base direction.</li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;Language-tagged strings can now be augmented with a base direction.</li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:a :name "Alice"@en--ltr</code></li>
         <li>New datatype: <code>rdf:dirLangString</code></li>
-        <li><code>ltr</code> left-to-right, <code>rtl</code> right-to-left.</li>
+        <li>Base directions: <br \>&nbsp;&nbsp;&nbsp;&nbsp;<code>ltr</code>: left-to-right<br \>&nbsp;&nbsp;&nbsp;&nbsp;<code>rtl</code>: right-to-left</li>
       </ul>
-      <pre><code>:a :name "Alice"@en--ltr</code></pre>
     </section>
 
     <section id="other-changes-base-functions" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-base-functions">
@@ -524,26 +516,15 @@ Content-Type: text/turtle; version=1.2</code></pre>
       </ul>
     </section>
 
-    <section id="other-changes-outline-exists" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-outline-exists">
-      <h2 property="schema:name">Outline</h2>
-      <ul>
-        <li class="inactive">Version announcement</li>
-        <li class="inactive">Base directions</li>
-        <li class="current">EXISTS</li>
-        <li class="inactive">Symmetric RDF (non normative)</li>
-        <li class="inactive">Other changes</li>
-      </ul>
-    </section>
-
     <section id="other-changes-exists-intro" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-exists-intro">
       <h2 property="schema:name">SPARQL 1.1 introduced the (NOT) EXISTS filter expressions</h2>
       <p>For testing if some data does (not) exist.</p>
-      <pre><code>PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+      <pre class="sparql">PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
 PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
 SELECT ?person WHERE {
   ?person rdf:type foaf:Person .
   FILTER EXISTS { ?person foaf:name ?name }
-}</code></pre>
+}</pre>
     </section>
 
     <section id="other-changes-exists-issues" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-exists-issues">
@@ -556,117 +537,30 @@ SELECT ?person WHERE {
         <li>Substitution can flip MINUS to its disjoint-domain case.</li>
         <li>Substitution affects disconnected variables.</li>
       </ol>
-      <p>Further reading:</p>
-      <ul>
-        <li><a href="https://w3c.github.io/sparql-exists/docs/sparql-exists.html">https://w3c.github.io/sparql-exists/docs/sparql-exists.html</a></li>
-        <li><a href="https://afs.github.io/substitute.html">https://afs.github.io/substitute.html</a></li>
-        <li><a href="https://ceur-ws.org/Vol-1690/paper72.pdf">https://ceur-ws.org/Vol-1690/paper72.pdf</a></li>
-        <li><a href="https://docs.google.com/presentation/d/16U0Z0HR6MwNWdBe-ctm3wLFd6wiKum7DFRaTpxkkdM/edit?slide=id.g27ccbd8ed27_0_201">https://docs.google.com/presentation/d/16U0Z0HR6MwNWdBe-ctm3wLFd6wiKum7DFRaTpxkkdM/edit?slide=id.g27ccbd8ed27_0_201</a></li>
-      </ul>
     </section>
 
     <section id="other-changes-exists-examples" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-exists-examples">
       <h2 property="schema:name">Examples: substitution happens where definitions are only for variables</h2>
       <p>The target term of BIND must always be a variable.</p>
-      <pre><code>SELECT ?person WHERE {
+      <pre class="sparql" style="font-size: 0.7em">SELECT ?person WHERE {
   ?person rdf:type foaf:Person .
   FILTER EXISTS { BIND ( :p AS ?person ) }
-}</code></pre>
+}</pre>
       <p>Projection with SELECT must always be a variable.</p>
-      <pre><code>SELECT ?person WHERE {
+      <pre class="sparql" style="font-size: 0.7em">SELECT ?person WHERE {
   ?person rdf:type foaf:Person .
   FILTER EXISTS { SELECT ?person { :a :b ?person } }
-}</code></pre>
+}</pre>
       <p>Different interpretations lead to inconsistent behaviour across SPARQL engines.</p>
     </section>
 
     <section id="other-changes-exists-deep-injection" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-exists-deep-injection">
-      <h2 property="schema:name">Solution: working towards “deep injection”</h2>
+      <h2 property="schema:name">Solution: “deep injection”</h2>
       <ul>
-        <li>Goal is to remain close to the original intent of EXISTS in SPARQL 1.1.</li>
-        <li><strong>Deep injection</strong> — inject values inside the pattern (↔ at beginning of pattern).</li>
-        <li><strong>Without projection</strong> — values projected out in sub-SELECTs are affected.</li>
-        <li><strong>Per solution mapping</strong> — evaluate EXISTS pattern once per solution mapping (↔ once for all solution mappings).</li>
-        <li>Work in progress!</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-outline-symmetric" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-outline-symmetric">
-      <h2 property="schema:name">Outline</h2>
-      <ul>
-        <li class="inactive">Version announcement</li>
-        <li class="inactive">Base directions</li>
-        <li class="inactive">EXISTS</li>
-        <li class="current">Symmetric RDF (non normative)</li>
-        <li class="inactive">Other changes</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-symmetric-reminder" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-symmetric-reminder">
-      <h2 property="schema:name">Reminder: allowed term types in RDF 1.2 triples</h2>
-      <ul>
-        <li><strong>Subject</strong>: IRI, blank node</li>
-        <li><strong>Predicate</strong>: IRI</li>
-        <li><strong>Object</strong>: IRI, blank node, literal, triple term</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-generalized" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-generalized">
-      <h2 property="schema:name">In RDF 1.1, generalized RDF was introduced</h2>
-      <ul>
-        <li>Can be useful for specific tools and proofs.</li>
-        <li>Non-normative: tools are not required to accept this, and may cause interop issues.</li>
-        <li><strong>Subject</strong>: IRI, blank node, literal</li>
-        <li><strong>Predicate</strong>: IRI, blank node, literal</li>
-        <li><strong>Object</strong>: IRI, blank node, literal</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-symmetric" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-symmetric">
-      <h2 property="schema:name">RDF 1.2 extends generalized RDF, and adds symmetric RDF</h2>
-      <p><strong>Generalized RDF triple</strong></p>
-      <ul>
-        <li>Subject: IRI, blank node, literal, triple term</li>
-        <li>Predicate: IRI, blank node, literal, triple term</li>
-        <li>Object: IRI, blank node, literal, triple term</li>
-      </ul>
-      <p><strong>Symmetric RDF triple</strong></p>
-      <ul>
-        <li>Subject: IRI, blank node, literal, triple term</li>
-        <li>Predicate: IRI</li>
-        <li>Object: IRI, blank node, literal, triple term</li>
-      </ul>
-      <p>Useful for proofs around RDFS entailment.</p>
-    </section>
-
-    <section id="other-changes-outline-other" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-outline-other">
-      <h2 property="schema:name">Outline</h2>
-      <ul>
-        <li class="inactive">Version announcement</li>
-        <li class="inactive">Base directions</li>
-        <li class="inactive">EXISTS</li>
-        <li class="inactive">Symmetric RDF (non normative)</li>
-        <li class="current">Other changes</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-literals" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-literals">
-      <h2 property="schema:name">Removal of plain and simple literals concepts</h2>
-      <ul>
-        <li><strong>SPARQL 1.1</strong>: distinction between literals with datatype <code>xsd:string</code> and plain literals (no datatype).</li>
-        <li>SPARQL 1.1 had its own different meaning of simple literal: syntactic sugar for <code>xsd:string</code> literals.</li>
-        <li><strong>SPARQL 1.2</strong>: removal of distinction in favor of RDF 1.1/1.2’s simple literal.</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-algebra" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-algebra">
-      <h2 property="schema:name">Clearer algebraic syntax and algebra operators</h2>
-      <p>Example in SPARQL 1.1: filter evaluation semantics</p>
-      <pre><code>eval(D(G), Filter(F, P)) = Filter(F, eval(D(G), P), D(G))</code></pre>
-      <ul>
-        <li>Algebraic syntax is now explicitly defined.</li>
-        <li>Algebraic syntax and algebra operators are clearly distinguished.</li>
-        <li><code>FILTER</code> in syntax vs algebraic filter operator <code>!=</code>.</li>
+        <li>Goal was to remain close to the original intent of EXISTS in SPARQL 1.1.</li>
+        <li><strong>Deep injection</strong>: inject values inside the pattern (↔ at beginning of pattern).</li>
+        <li><strong>Without projection</strong>: values projected out in sub-SELECTs are affected.</li>
+        <li><strong>Per solution mapping</strong>: evaluate EXISTS pattern once per solution mapping (↔ once for all solution mappings).</li>
       </ul>
     </section>
 
@@ -675,7 +569,7 @@ SELECT ?person WHERE {
       <p><a href="https://github.com/w3c/rdf-tests/">https://github.com/w3c/rdf-tests/</a></p>
       <p>Declarative set of tests to measure conformance of a system.</p>
       <p>New tests for:</p>
-      <ul>
+      <ul style="font-size: 0.75em">
         <li>N-Triples 1.2 (70)</li>
         <li>N-Quads 1.2 (68)</li>
         <li>Semantics 1.2 (155)</li>
@@ -686,38 +580,34 @@ SELECT ?person WHERE {
       </ul>
     </section>
 
-    <section id="other-changes-quad" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-quad">
-      <h2 property="schema:name">Definition of quad (non-normative)</h2>
-      <ul>
-        <li>Quad: often used informally to refer to triple with graph, but never defined in RDF specs.</li>
-        <li>Example: RDF/JS represents triples as quads in JavaScript.</li>
-      </ul>
-      <blockquote>
-        A quad can be represented as a tuple composed of subject, predicate, object, and an optional graph name.
-      </blockquote>
-    </section>
-
-    <section id="other-changes-rdf-json" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-rdf-json">
-      <h2 property="schema:name">Added <code>rdf:JSON</code> data type</h2>
-      <ul>
-        <li>Already used by JSON-LD 1.1.</li>
-        <li><strong>Lexical space</strong>: set of all RDF strings that conform to the JSON Grammar.</li>
-        <li><strong>Value space</strong>: smallest set containing strings, numbers (<code>xsd:double</code>), finite unordered maps mapping strings to values in the value space, lists of values in the value space, and literal values (true, false, null).</li>
-        <li>Intuitively: all “JSON values”.</li>
-      </ul>
-    </section>
-
-    <section id="other-changes-full-list" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-full-list">
-      <h2 property="schema:name">Full list of changes within each spec</h2>
-    </section>
-
     <section id="other-changes-next-steps" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-next-steps">
       <h2 property="schema:name" class="big">Next steps</h2>
       <ul>
-        <li>After RDF and SPARQL 1.2 recommendations, the WG is in maintenance mode → faster evolution of RDF and SPARQL specs.</li>
+        <li>After RDF and SPARQL 1.2 recommendations, WG in maintenance mode<br \>&nbsp;&nbsp;&nbsp;&nbsp;&rarr; faster evolution of RDF and SPARQL specs.</li>
         <li>Will consider input from the SPARQL DEV community group:
           <a href="https://github.com/w3c/sparql-dev/">https://github.com/w3c/sparql-dev/</a>
         </li>
+      </ul>
+      <center><img src="img/sparqldev.png" style="width: 100%"></center>
+    </section>
+    
+    <section id="index-final" class="slide index" inlist="" rel="schema:hasPart" resource="#index-final">
+      <ul>
+        <li><a href="#index-querysyntax">Query syntax</a></li>
+        <li><a href="#index-functions">Functions</a></li>
+        <li><a href="#index-comparisons">Comparisons</a></li>
+        <li><a href="#index-results">Results</a></li>
+        <li><a href="#index-other">Other changes</a></li>
+      </ul>
+    </section>
+    
+    <section id="conclusions" class="slide" inlist="" rel="schema:hasPart" resource="#conclusions">
+      <h2 property="schema:name" class="big">Reference implementations for 1.2</h2>
+      <ul>
+        <li><strong>Java</strong>: Apache Jena</li>
+        <li><strong>Rust</strong>: Oxigraph, Sophia</li>
+        <li><strong>JavaScript/TypeScript</strong>: Comunica, RDF/JS</li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://query.comunica.dev/">https://query.comunica.dev/</a>, <a href="https://rdf-play.rubensworks.net/">https://rdf-play.rubensworks.net/</a></li>
       </ul>
     </section>
 
@@ -730,5 +620,37 @@ SELECT ?person WHERE {
     </footer>
 
     <script src="shower/shower.min.js"></script>
+    <script>
+    function highlightSPARQL(code) {
+      return code
+        // Escape HTML first
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+
+        // Comments
+        //.replace(/( #.*)/g, ' <span class="sparql-comment">$1</span>')
+
+        // Strings with optional language tag
+        .replace(/(".*?"(@[a-zA-Z-]+)?)/g,
+          '<span class="sparql-string">$1</span>')
+
+        // Variables
+        .replace(/(\?[a-zA-Z_][a-zA-Z0-9_]*)/g,
+          '<span class="sparql-variable">$1</span>')
+
+        // Prefixed names (e.g., dbpedia-owl:Artist)
+        .replace(/([a-zA-Z_-]+:[a-zA-Z_-]+)/g,
+          '<span class="sparql-prefix">$1</span>')
+
+        // Keywords
+        .replace(/\b(SELECT|WHERE|FILTER|OPTIONAL|LANGMATCHES|LANG|a)\b/g,
+          '<span class="sparql-keyword">$1</span>');
+    }
+
+    document.querySelectorAll("pre.sparql").forEach(block => {
+      block.innerHTML = highlightSPARQL(block.textContent);
+    });
+    </script>
   </body>
 </html>
