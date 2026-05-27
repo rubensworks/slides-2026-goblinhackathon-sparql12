@@ -74,7 +74,7 @@
     </header>
 
     <section id="title" class="slide title" inlist="" rel="schema:hasPart" resource="#title">
-      <h2 property="schema:name">An overview of the changes in SPARQL 1.2</h2>
+      <h2 property="schema:name">An overview of the changes in SPARQL 1.2 <em>(and others)</em></h2>
       <ul class="author inline">
           <li class="current"><a href="https://www.rubensworks.net/">Ruben Taelman</a></li>
       </ul>
@@ -87,7 +87,10 @@
         <li><a href="#index-functions">Functions</a></li>
         <li><a href="#index-comparisons">Comparisons</a></li>
         <li><a href="#index-results">Results</a></li>
-        <li><a href="#index-other">Other changes</a></li>
+        <li><a href="#index-versioning">Versioning</a></li>
+        <li><a href="#index-basedir">Base Directions</a></li>
+        <li><a href="#index-exists">EXISTS</a></li>
+        <li><a href="#index-finalization">Finalization</a></li>
       </ul>
     </section>
 
@@ -97,7 +100,10 @@
         <li><a href="#index-functions">Functions</a></li>
         <li><a href="#index-comparisons">Comparisons</a></li>
         <li><a href="#index-results">Results</a></li>
-        <li><a href="#index-other">Other changes</a></li>
+        <li><a href="#index-versioning">Versioning</a></li>
+        <li><a href="#index-basedir">Base Directions</a></li>
+        <li><a href="#index-exists">EXISTS</a></li>
+        <li><a href="#index-finalization">Finalization</a></li>
       </ul>
     </section>
 
@@ -167,7 +173,10 @@ SELECT ?person ?authority {
         <li class="current"><a href="#index-functions">Functions</a></li>
         <li><a href="#index-comparisons">Comparisons</a></li>
         <li><a href="#index-results">Results</a></li>
-        <li><a href="#index-other">Other changes</a></li>
+        <li><a href="#index-versioning">Versioning</a></li>
+        <li><a href="#index-basedir">Base Directions</a></li>
+        <li><a href="#index-exists">EXISTS</a></li>
+        <li><a href="#index-finalization">Finalization</a></li>
       </ul>
     </section>
 
@@ -226,7 +235,10 @@ SELECT ?person ?authority {
         <li><a href="#index-functions">Functions</a></li>
         <li class="current"><a href="#index-comparisons">Comparisons</a></li>
         <li><a href="#index-results">Results</a></li>
-        <li><a href="#index-other">Other changes</a></li>
+        <li><a href="#index-versioning">Versioning</a></li>
+        <li><a href="#index-basedir">Base Directions</a></li>
+        <li><a href="#index-exists">EXISTS</a></li>
+        <li><a href="#index-finalization">Finalization</a></li>
       </ul>
     </section>
 
@@ -236,7 +248,6 @@ SELECT ?person ?authority {
       <ul>
         <li>sameTerm</li>
         <li>sameValue (=)</li>
-        <li>Operator mappings (!=, &lt;, &lt;=, &gt;, &gt;=)</li>
         <li>ORDER BY</li>
       </ul>
     </section>
@@ -318,7 +329,10 @@ SELECT ?person ?authority {
         <li><a href="#index-functions">Functions</a></li>
         <li><a href="#index-comparisons">Comparisons</a></li>
         <li class="current"><a href="#index-results">Results</a></li>
-        <li><a href="#index-other">Other changes</a></li>
+        <li><a href="#index-versioning">Versioning</a></li>
+        <li><a href="#index-basedir">Base Directions</a></li>
+        <li><a href="#index-exists">EXISTS</a></li>
+        <li><a href="#index-finalization">Finalization</a></li>
       </ul>
     </section>
 
@@ -399,13 +413,16 @@ Alice". )&gt;&gt;</td></tr>
       </table>
     </section>
 
-    <section id="index-other" class="slide index" inlist="" rel="schema:hasPart" resource="#index-other">
+    <section id="index-versioning" class="slide index" inlist="" rel="schema:hasPart" resource="#index-versioning">
       <ul>
         <li><a href="#index-querysyntax">Query syntax</a></li>
         <li><a href="#index-functions">Functions</a></li>
         <li><a href="#index-comparisons">Comparisons</a></li>
         <li><a href="#index-results">Results</a></li>
-        <li class="current"><a href="#index-other">Other changes</a></li>
+        <li class="current"><a href="#index-versioning">Versioning</a></li>
+        <li><a href="#index-basedir">Base Directions</a></li>
+        <li><a href="#index-exists">EXISTS</a></li>
+        <li><a href="#index-finalization">Finalization</a></li>
       </ul>
     </section>
 
@@ -491,6 +508,19 @@ Content-Type: text/turtle; version=1.2</pre>
       </table>
     </section>
 
+    <section id="index-basedir" class="slide index" inlist="" rel="schema:hasPart" resource="#index-basedir">
+      <ul>
+        <li><a href="#index-querysyntax">Query syntax</a></li>
+        <li><a href="#index-functions">Functions</a></li>
+        <li><a href="#index-comparisons">Comparisons</a></li>
+        <li><a href="#index-results">Results</a></li>
+        <li><a href="#index-versioning">Versioning</a></li>
+        <li class="current"><a href="#index-basedir">Base Directions</a></li>
+        <li><a href="#index-exists">EXISTS</a></li>
+        <li><a href="#index-finalization">Finalization</a></li>
+      </ul>
+    </section>
+
     <section id="other-changes-base-directions" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-base-directions">
       <h2 property="schema:name">Languages can (optionally) have different reading directions</h2>
       <ul>
@@ -513,6 +543,19 @@ Content-Type: text/turtle; version=1.2</pre>
         <li><code>hasLANG()</code> If term is literal with language (EXTENDED)</li>
         <li><code>hasLANGDIR()</code> If term is literal with base direction (NEW)</li>
         <li><code>STRLANGDIR()</code> Make literal with value, language, and base direction (NEW)</li>
+      </ul>
+    </section>
+
+    <section id="index-exists" class="slide index" inlist="" rel="schema:hasPart" resource="#index-exists">
+      <ul>
+        <li><a href="#index-querysyntax">Query syntax</a></li>
+        <li><a href="#index-functions">Functions</a></li>
+        <li><a href="#index-comparisons">Comparisons</a></li>
+        <li><a href="#index-results">Results</a></li>
+        <li><a href="#index-versioning">Versioning</a></li>
+        <li><a href="#index-basedir">Base Directions</a></li>
+        <li class="current"><a href="#index-exists">EXISTS</a></li>
+        <li><a href="#index-finalization">Finalization</a></li>
       </ul>
     </section>
 
@@ -564,6 +607,19 @@ SELECT ?person WHERE {
       </ul>
     </section>
 
+    <section id="index-finalization" class="slide index" inlist="" rel="schema:hasPart" resource="#index-finalization">
+      <ul>
+        <li><a href="#index-querysyntax">Query syntax</a></li>
+        <li><a href="#index-functions">Functions</a></li>
+        <li><a href="#index-comparisons">Comparisons</a></li>
+        <li><a href="#index-results">Results</a></li>
+        <li><a href="#index-versioning">Versioning</a></li>
+        <li><a href="#index-basedir">Base Directions</a></li>
+        <li><a href="#index-exists">EXISTS</a></li>
+        <li class="current"><a href="#index-finalization">Finalization</a></li>
+      </ul>
+    </section>
+
     <section id="other-changes-tests" class="slide" inlist="" rel="schema:hasPart" resource="#other-changes-tests">
       <h2 property="schema:name">Many new specification tests</h2>
       <p><a href="https://github.com/w3c/rdf-tests/">https://github.com/w3c/rdf-tests/</a></p>
@@ -577,6 +633,16 @@ SELECT ?person WHERE {
         <li>Turtle 1.2 (92)</li>
         <li>RDF/XML 1.2 (30)</li>
         <li>SPARQL 1.2 (230)</li>
+      </ul>
+    </section>
+
+    <section id="conclusions" class="slide" inlist="" rel="schema:hasPart" resource="#conclusions">
+      <h2 property="schema:name" class="big">Reference implementations for 1.2</h2>
+      <ul>
+        <li><strong>Java</strong>: Apache Jena</li>
+        <li><strong>Rust</strong>: Oxigraph, Sophia</li>
+        <li><strong>JavaScript/TypeScript</strong>: Comunica, RDF/JS</li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://query.comunica.dev/">https://query.comunica.dev/</a>, <a href="https://rdf-play.rubensworks.net/">https://rdf-play.rubensworks.net/</a></li>
       </ul>
     </section>
 
@@ -597,17 +663,10 @@ SELECT ?person WHERE {
         <li><a href="#index-functions">Functions</a></li>
         <li><a href="#index-comparisons">Comparisons</a></li>
         <li><a href="#index-results">Results</a></li>
-        <li><a href="#index-other">Other changes</a></li>
-      </ul>
-    </section>
-    
-    <section id="conclusions" class="slide" inlist="" rel="schema:hasPart" resource="#conclusions">
-      <h2 property="schema:name" class="big">Reference implementations for 1.2</h2>
-      <ul>
-        <li><strong>Java</strong>: Apache Jena</li>
-        <li><strong>Rust</strong>: Oxigraph, Sophia</li>
-        <li><strong>JavaScript/TypeScript</strong>: Comunica, RDF/JS</li>
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://query.comunica.dev/">https://query.comunica.dev/</a>, <a href="https://rdf-play.rubensworks.net/">https://rdf-play.rubensworks.net/</a></li>
+        <li><a href="#index-versioning">Versioning</a></li>
+        <li><a href="#index-basedir">Base Directions</a></li>
+        <li><a href="#index-exists">EXISTS</a></li>
+        <li><a href="#index-finalization">Finalization</a></li>
       </ul>
     </section>
 
